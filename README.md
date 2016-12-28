@@ -1,0 +1,2 @@
+# setinterval
+More reasonable setInterval
