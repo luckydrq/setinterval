@@ -8,7 +8,6 @@ const is = require('is-type-of');
 class Timer extends EventEmitter {
   constructor(fn, period) {
     assert(fn, '[Timer]: fn required!');
-    assert(toPromise(fn), '[Timer]: fn should be a Promise, a generator function, a thunk or a normal function');
     assert(period, '[Timer]: period required!');
     assert(is.number(period), '[Timer]: period should be a number!');
 
@@ -24,7 +23,12 @@ class Timer extends EventEmitter {
   _task() {
     const fn = toPromise(this._fn);
 
-    fn.catch(e => this.emit('error', e))
+    Promise.resolve()
+      .then(() => {
+        assert(fn, '[Timer]: fn should be a Promise, a generator function, a thunk or a normal function');
+        return fn;
+      })
+      .catch(e => this.emit('error', e))
       .then(() => {
         ++this._count;
         this.emit('tick', this._count);

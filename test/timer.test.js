@@ -49,10 +49,13 @@ describe('test/timer.test.js', () => {
     }, 100);
     timer.setInterval();
 
-    timer.on('tick', () => {
-      timer.clearInterval();
-      done();
-    });
+    setTimeout(() => {
+      timer.on('tick', count => {
+        assert(count === 2);
+        timer.clearInterval();
+        done();
+      });
+    }, 200);
   });
 
   it('should support promise', done => {
@@ -91,13 +94,13 @@ describe('test/timer.test.js', () => {
   });
 
   it('should throw error when fn is invalid', done => {
-    try {
-      const timer = new Timer(1, 100);
-      timer.setInterval();
-    } catch (e) {
+    const timer = new Timer(1, 100);
+    timer.setInterval();
+
+    timer.on('error', e => {
       assert(e.message.indexOf('[Timer]: fn should be') > -1);
       done();
-    }
+    });
   });
 
 });

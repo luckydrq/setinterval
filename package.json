@@ -1,10 +1,20 @@
 {
   "name": "setinterval",
   "version": "0.1.0",
+  "keywords": [
+    "setInterval",
+    "async",
+    "task"
+  ],
+  "author": "luckydrq<drqzju@gmail.com>",
   "scripts": {
     "lint": "eslint index.js test --ext .js --fix",
     "test": "mocha -t 3000 test/*.test.js",
     "cov": "istanbul cover _mocha -- -t 3000 test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:luckydrq/setinterval.git"
   },
   "dependencies": {
     "co": "^4.6.0",
