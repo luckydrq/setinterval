@@ -64,6 +64,10 @@ function toPromise(fn) {
     return fn;
   }
 
+  if (is.asyncFunction(fn)) {
+    return fn();
+  }
+
   if (is.generatorFunction(fn)) {
     return co(fn);
   }

@@ -93,6 +93,18 @@ describe('test/timer.test.js', () => {
     });
   });
 
+  it('should support async function', done => {
+    const timer = new Timer(async () => {
+      await sleep(50);
+    }, 100);
+    timer.setInterval();
+
+    timer.on('tick', e => {
+      timer.clearInterval();
+      done();
+    });
+  });
+
   it('should throw error when fn is invalid', done => {
     const timer = new Timer(1, 100);
     timer.setInterval();
