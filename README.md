@@ -8,7 +8,9 @@
 [download-image]: https://img.shields.io/npm/dm/setinterval.svg?style=flat-square
 [download-url]: https://npmjs.org/package/setinterval
 
-More reasonable setInterval for async task.
+We all know the drawbacks of the built-in `setInterval` in Node.js(actually js itself).
+
+It's more reasonable to start measuring period after every async task gets done. So here it is.
 
 ## Install
 `$ npm i setinterval`
@@ -16,15 +18,17 @@ More reasonable setInterval for async task.
 ## Example
 ```js
   const Timer = require('setinterval');
-  const t = new Timer(function*() {
-    const user = yield db.User.get(id);
+  const t = new Timer(async () => {
+    const user = await db.User.get(id);
     console.log(user);
   }, 1000);
 
   // start timer
   t.setInterval();
 
-  // xxxx
+  // after some time...
+
+  // clear timer
   t.clearInterval();
 ```
 
@@ -32,7 +36,7 @@ More reasonable setInterval for async task.
 
 - setInterval(fn, period)
 
-fn should be a Promise, a generator function or a thunk.
+fn should be a Promise or async function or generator function or thunk.
 
 - clearInterval()
 
