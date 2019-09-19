@@ -34,17 +34,28 @@ It's more reasonable to start measuring period after every async task gets done.
 
 ## API
 
-- setInterval(fn, period)
+### new Timer(fn, period)
 
-fn should be a Promise or async function or generator function or thunk.
+Timer contructor.
 
-- clearInterval()
+Params:
+  - fn(*required*): function excuted after every `period`. Should be a Promise or async function or generator function or thunk.
+  - period(*required*): timer period(*units: milliseconds*).
 
-cancel timer.
+### setInterval(initialDelay)
+
+Start timer after a certain delay if specified.
+
+Params:
+  - initialDelay(*optional*): Delay period(*units: milliseconds*) before timer gets triggered. *default: undefined*
+
+### clearInterval()
+
+Stop timer(can be restart again).
 
 ## Events
 
-- tick
+### tick
 
 Triggered each time fn is finished, whenever a error is thrown. You can cancel the timer in this event. A `count` parameter is passed in the event handler which stands for how many times fn has been called.
 
@@ -54,7 +65,7 @@ timer.on('tick', count => {
 });
 ```
 
-- error
+### error
 
 Triggered when error thrown from fn.
 
