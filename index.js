@@ -40,9 +40,20 @@ class Timer extends EventEmitter {
       });
   }
 
-  setInterval() {
-    this._continue = true;
-    this._timer = setTimeout(() => this._task(), this._period);
+  setInterval(initialDelay) {
+    initialDelay = parseInt(initialDelay, 10);
+
+    const setupTimer = () => {
+      this._continue = true;
+      this._timer = setTimeout(() => this._task(), this._period);
+    }
+
+    if (!isNaN(initialDelay) && initialDelay > 0) {
+      setTimeout(setupTimer, initialDelay);
+    } else {
+      setupTimer();
+    }
+
     return this;
   }
 

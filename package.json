@@ -21,8 +21,8 @@
     "is-type-of": "^1.0.0"
   },
   "devDependencies": {
-    "eslint": "^3.12.2",
-    "eslint-config-egg": "^3.2.0",
+    "eslint": "5",
+    "eslint-config-egg": "7",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0"
   }

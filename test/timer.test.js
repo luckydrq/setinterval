@@ -111,10 +111,26 @@ describe('test/timer.test.js', () => {
 
     timer.on('error', e => {
       assert(e.message.indexOf('[Timer]: fn should be') > -1);
+      timer.clearInterval();
       done();
     });
   });
 
+  it('should support initial delay', done => {
+    let flag = false;
+    const timer = new Timer(async () => {
+      flag = true;
+    }, 100);
+    timer.setInterval(100);
+    timer.on('tick', () => {
+      assert.equal(flag, true);
+      timer.clearInterval();
+      done();
+    });
+    setTimeout(() => {
+      assert.equal(flag, false);
+    }, 150);
+  });
 });
 
 function sleep(milliseconds) {
