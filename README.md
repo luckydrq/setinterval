@@ -36,18 +36,19 @@ It's more reasonable to start measuring period after every async task gets done.
 
 ### new Timer(fn, period)
 
-Timer contructor.
+Timer constructor.
 
 Params:
-  - fn(*required*): function excuted after every `period`. Should be a Promise or async function or generator function or thunk.
+  - fn(*required*): function executed after every `period`. Should be a Promise or async function or generator function or thunk.
   - period(*required*): timer period(*units: milliseconds*).
 
-### setInterval(initialDelay)
+### setInterval([initialDelay], [invokeImmediate])
 
-Start timer after a certain delay if specified.
+Start timer after a certain delay(defaults to *0*) and can decide if invoke immediately(defaults to *false*).
 
 Params:
-  - initialDelay(*optional*): Delay period(*units: milliseconds*) before timer gets triggered. *default: undefined*
+  - initialDelay(*optional*): Delay period(*units: milliseconds*) before timer gets triggered. *default: 0*
+  - invokeImmediate(*optional*): specify if the timer function invoke immediately.*default: false*
 
 ### clearInterval()
 

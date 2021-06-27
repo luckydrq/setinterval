@@ -20,7 +20,7 @@ class Timer extends EventEmitter {
     this._count = 0;
   }
 
-  _task() {
+  _runTask() {
     const fn = toPromise(this._fn);
 
     Promise.resolve()
@@ -33,25 +33,35 @@ class Timer extends EventEmitter {
         ++this._count;
         this.emit('tick', this._count);
 
-        // check if we should contiue
+        // check if we should continue
         if (this._continue) {
           this.setInterval();
         }
       });
   }
 
-  setInterval(initialDelay) {
+  setInterval(initialDelay = 0, invokeImmediate = false) {
+    if (is.boolean(initialDelay)) {
+      invokeImmediate = initialDelay;
+      initialDelay = 0;
+    }
     initialDelay = parseInt(initialDelay, 10);
 
-    const setupTimer = () => {
+    const setupTimer = invokeImmediate => {
       this._continue = true;
-      this._timer = setTimeout(() => this._task(), this._period);
-    }
+
+      // invoke immediately
+      if (invokeImmediate) {
+        this._runTask();
+      } else {
+        this._timer = setTimeout(() => this._runTask(), this._period);
+      }
+    };
 
     if (!isNaN(initialDelay) && initialDelay > 0) {
-      setTimeout(setupTimer, initialDelay);
+      setTimeout(() => setupTimer(invokeImmediate), initialDelay);
     } else {
-      setupTimer();
+      setupTimer(invokeImmediate);
     }
 
     return this;
