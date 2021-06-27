@@ -19,7 +19,7 @@ describe('test/timer.test.js', () => {
   });
 
   it('should clearInterval', done => {
-    const timer = new Timer(function*() {
+    const timer = new Timer(function* () {
       yield sleep(50);
     }, 100);
     timer.setInterval()
@@ -30,7 +30,7 @@ describe('test/timer.test.js', () => {
   });
 
   it('should emit error event', done => {
-    const timer = new Timer(function*() {
+    const timer = new Timer(function* () {
       yield sleep(50);
       throw new Error('task error!');
     }, 100);
@@ -44,7 +44,7 @@ describe('test/timer.test.js', () => {
   });
 
   it('should emit tick event', done => {
-    const timer = new Timer(function*() {
+    const timer = new Timer(function* () {
       yield sleep(50);
     }, 100);
     timer.setInterval();
@@ -82,12 +82,12 @@ describe('test/timer.test.js', () => {
   });
 
   it('should support generator function', done => {
-    const timer = new Timer(function*() {
+    const timer = new Timer(function* () {
       yield sleep(50);
     }, 100);
     timer.setInterval();
 
-    timer.on('tick', e => {
+    timer.on('tick', () => {
       timer.clearInterval();
       done();
     });
@@ -99,7 +99,7 @@ describe('test/timer.test.js', () => {
     }, 100);
     timer.setInterval();
 
-    timer.on('tick', e => {
+    timer.on('tick', () => {
       timer.clearInterval();
       done();
     });
@@ -129,6 +129,21 @@ describe('test/timer.test.js', () => {
     });
     setTimeout(() => {
       assert.equal(flag, false);
+    }, 150);
+  });
+
+  it('should support invoke immediately', done => {
+    let count = 0;
+    const timer = new Timer(async () => {
+      ++count;
+    }, 100);
+    timer.setInterval(true);
+    setTimeout(() => {
+      assert.strictEqual(count, 1);
+    }, 50);
+    setTimeout(() => {
+      assert.strictEqual(count, 2);
+      done();
     }, 150);
   });
 });
