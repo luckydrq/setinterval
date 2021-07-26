@@ -47,21 +47,10 @@ class Timer extends EventEmitter {
     }
     initialDelay = parseInt(initialDelay, 10);
 
-    const setupTimer = invokeImmediate => {
-      this._continue = true;
-
-      // invoke immediately
-      if (invokeImmediate) {
-        this._runTask();
-      } else {
-        this._timer = setTimeout(() => this._runTask(), this._period);
-      }
-    };
-
     if (!isNaN(initialDelay) && initialDelay > 0) {
-      setTimeout(() => setupTimer(invokeImmediate), initialDelay);
+      setTimeout(() => this._setupTimer(invokeImmediate), initialDelay);
     } else {
-      setupTimer(invokeImmediate);
+      this._setupTimer(invokeImmediate);
     }
 
     return this;
@@ -77,6 +66,17 @@ class Timer extends EventEmitter {
     }
 
     return this;
+  }
+
+  _setupTimer(invokeImmediate) {
+    this._continue = true;
+
+    // invoke immediately
+    if (invokeImmediate) {
+      this._runTask();
+    } else {
+      this._timer = setTimeout(() => this._runTask(), this._period);
+    }
   }
 }
 
